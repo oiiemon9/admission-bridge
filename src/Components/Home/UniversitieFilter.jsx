@@ -4,6 +4,15 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import {
+  ArrowRight,
+  BookOpenCheck,
+  Check,
+  GraduationCap,
+  MapPin,
+  X,
+} from 'lucide-react';
+import Link from 'next/link';
 
 export default function UniversitieFilter() {
   const [universities, setUniversities] = useState([]);
@@ -16,16 +25,15 @@ export default function UniversitieFilter() {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(
+        `/api/universities?min=${minFee}&max=${maxFee}&gpa=${gpa}&ielts=${ielts}&search=${search}`
+      );
+      const data = await res.json();
+      setUniversities(data);
+    };
     fetchData();
   }, [minFee, maxFee, gpa, ielts, search]);
-
-  const fetchData = async () => {
-    const res = await fetch(
-      `/api/universities?min=${minFee}&max=${maxFee}&gpa=${gpa}&ielts=${ielts}&search=${search}`
-    );
-    const data = await res.json();
-    setUniversities(data);
-  };
 
   const handleCompare = (uni) => {
     const exists = compareList.find((u) => u.id === uni.id);
@@ -104,13 +112,14 @@ export default function UniversitieFilter() {
                     ${minFee.toLocaleString()} - ${maxFee.toLocaleString()}
                   </span>
                 </label>
+
                 <input
                   type="range"
                   min="3000"
                   max="50000"
                   value={maxFee}
                   onChange={(e) => setMaxFee(e.target.value)}
-                  className="w-full"
+                  className="range range-error text-rose-600 w-full"
                 />
               </div>
             </div>
@@ -132,19 +141,19 @@ export default function UniversitieFilter() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 border border-gray-100"
+                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 border border-gray-100 relative flex flex-col"
               >
-                {/* Placeholder Header */}
-                {/* <div className="h-48 bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
-                  <div className="text-white text-5xl font-bold opacity-30">
-                    {u.name
-                      .split(' ')
-                      .map((word) => word[0])
-                      .join('')
-                      .toUpperCase()
-                      .slice(0, 2)}
-                  </div>
-                </div> */}
+                <div className="flex justify-center absolute top-1 right-1">
+                  {u.status === 'Not Eligible' ? (
+                    <span className="inline-flex items-center px-4 py-1 rounded-full text-xs font-medium bg-rose-100 text-rose-800">
+                      <X size={20} /> Not Eligible
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center px-5 py-2 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                      <Check size={20} /> Eligible
+                    </span>
+                  )}
+                </div>
                 <div className="h-52 w-full">
                   {u?.image ? (
                     <Image
@@ -161,49 +170,65 @@ export default function UniversitieFilter() {
                   )}
                 </div>
 
-                <div className="p-6">
+                <div className="p-6 flex-1">
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">
                     {u.name}
                   </h3>
-                  <p className="text-gray-600 mb-4">
-                    {u.country} • {u.degree}
-                  </p>
+
                   <div className="space-y-2 mb-6">
-                    <p className="text-lg font-semibold text-indigo-600">
-                      Tuition: ${u.tuition_fee.toLocaleString()}/year
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      Required: GPA ≥ {u.min_gpa} | IELTS ≥ {u.min_ielts}
+                    <div className="flex flex-wrap items-center gap-2 text-sm text-gray-700 text-nowrap">
+                      <span className="flex items-center gap-1 bg-blue-50 text-blue-700 px-3 py-1 rounded-full">
+                        <GraduationCap size={16} />
+                        Min GPA: <strong>{u.min_gpa}</strong>
+                      </span>
+                      <span className="flex items-center gap-1 bg-purple-50 text-purple-700 px-3 py-1 rounded-full">
+                        <BookOpenCheck size={16} /> Min IELTS:{' '}
+                        <strong>{u.min_ielts}</strong>
+                      </span>
+                      <span className="flex items-center gap-1 bg-rose-50 text-rose-700 px-3 py-1 rounded-full">
+                        <MapPin size={16} /> {u.country} • {u.degree}
+                      </span>
+                    </div>
+                    <p className=" text-sm ">
+                      Tuition:{' '}
+                      <span className="text-xl font-bold text-rose-600">
+                        ${u.tuition_fee.toLocaleString()}
+                      </span>
+                      /year
                     </p>
                   </div>
-                  <div className="flex justify-center mb-6">
-                    {u.status === 'Not Eligible' ? (
-                      <span className="inline-flex items-center px-5 py-2 rounded-full text-sm font-medium bg-red-100 text-red-800">
-                        ❌ Not Eligible
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center px-5 py-2 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                        ✅ Eligible
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-2 mb-4">
+                  <label className="flex items-center gap-2 cursor-pointer w-fit">
                     <input
                       type="checkbox"
                       checked={compareList.some((c) => c.id === u.id)}
                       onChange={() => handleCompare(u)}
-                      className="w-4 h-4"
+                      className="checkbox text-white checked:bg-rose-600"
                     />
                     <span className="text-sm font-medium text-gray-700">
-                      Compare
+                      Compare this university
                     </span>
-                  </div>
-                  <a
-                    href={`/apply/${u.id}`}
-                    className="block w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200"
-                  >
-                    Apply Now →
-                  </a>
+                  </label>
+                </div>
+
+                <div className="p-6">
+                  <motion.div whileHover="hover" className="w-full">
+                    <Link
+                      href={`/apply/${u.id}`}
+                      className="flex justify-center items-center gap-2 w-full text-center bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200"
+                    >
+                      Apply Now
+                      <motion.span
+                        variants={{
+                          initial: { x: 0 },
+                          hover: { x: 8 },
+                        }}
+                        transition={{ type: 'spring', stiffness: 300 }}
+                        className=""
+                      >
+                        <ArrowRight />
+                      </motion.span>
+                    </Link>
+                  </motion.div>
                 </div>
               </motion.div>
             ))}
