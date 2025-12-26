@@ -22,12 +22,12 @@ export default function HeroSection() {
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className=" w-fit h-fit text-center"
+          className=" p-4 md:p-10 max-w-7xl mx-auto w-fit h-fit text-center"
         >
-          <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-4">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-4">
             Find Your <span className="text-rose-600">Dream University</span>
           </h1>
-          <p className="text-xl text-white text-shadow-lg max-w-3xl mx-auto">
+          <p className=" md:text-xl text-white text-shadow-lg max-w-3xl mx-auto">
             Discover top universities worldwide that match your academic profile
             and budget. Start your journey today!
           </p>

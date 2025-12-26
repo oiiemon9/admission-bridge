@@ -74,8 +74,8 @@ export default function ApplyPage() {
   }
 
   return (
-    <div className="bg-gradient-to-b from-slate-50 to-slate-100 py-12 px-4">
-      <div className="p-6 md:p-10 max-w-7xl mx-auto">
+    <div className="bg-gradient-to-b from-slate-50 to-slate-100 py-12">
+      <div className="p-4 md:p-10 max-w-7xl mx-auto">
         {university && (
           <div className="bg-white rounded-3xl overflow-hidden mb-12 border border-slate-200">
             <div className="bg-linear-to-br from-rose-600 to-rose-800 px-8 py-12 text-white">
@@ -87,7 +87,7 @@ export default function ApplyPage() {
               </p>
             </div>
 
-            <div className="p-8">
+            <div className="p-4 md:p-8">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
                 <div className="relative h-64 rounded-2xl overflow-hidden shadow-lg">
                   {university.image ? (
@@ -150,7 +150,7 @@ export default function ApplyPage() {
               </div>
             </div>
 
-            <div className="bg-white p-8 md:p-12 border-t border-slate-200">
+            <div className=" p-4 md:p-12 border-t border-slate-200">
               <h2 className="text-3xl font-bold text-slate-900 mb-2">
                 Application Form
               </h2>
@@ -216,13 +216,13 @@ export default function ApplyPage() {
                   <button
                     type="button"
                     onClick={() => router.push('/')}
-                    className="px-8 py-3 rounded-xl text-slate-700 font-semibold border border-slate-300 hover:bg-slate-50 transition-all cursor-pointer"
+                    className="px-4 md:px-8 py-1 md:py-3 rounded-xl text-slate-700 font-semibold border border-slate-300 hover:bg-slate-50 transition-all cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-8 py-3 rounded-xl bg-rose-600 text-white font-semibold hover:bg-rose-700 transition-all shadow-lg hover:shadow-xl cursor-pointer"
+                    className="px-4 md:px-8 py-1 md:py-3 rounded-xl bg-rose-600 text-white font-semibold hover:bg-rose-700 transition-all shadow-lg hover:shadow-xl cursor-pointer"
                   >
                     Submit Application
                   </button>

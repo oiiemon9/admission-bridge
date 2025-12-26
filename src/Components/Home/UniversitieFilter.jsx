@@ -51,12 +51,12 @@ export default function UniversitieFilter() {
   };
   return (
     <div>
-      <div className="p-6 md:p-10 max-w-7xl mx-auto">
+      <div className="p-4 md:p-10 max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="rounded-2xl p-6 mb-12 -mt-52 relative border border-gray-300 backdrop-blur-sm"
+          className="rounded-2xl p-4 md:p-6 mb-12 -mt-52 relative border border-gray-300 backdrop-blur-sm"
         >
           <div className=" bg-white  p-4 rounded-xl ">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
