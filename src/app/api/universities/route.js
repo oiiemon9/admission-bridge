@@ -18,7 +18,7 @@ export async function GET(req) {
       END AS status
     FROM universities
     WHERE tuition_fee BETWEEN $1 AND $2
-      AND LOWER(name) LIKE LOWER($5)
+      AND LOWER(country) LIKE LOWER($5)
     `,
     [min, max, gpa, ielts, `%${search}%`]
   );
